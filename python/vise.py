@@ -7,15 +7,15 @@ from math import fabs
 import utils
 
 class Vise:
-'''
-how to use:
-obj =FreeCAD.ActiveDocument.addObject("Part::FeaturePython",'Vise')
-Vise(obj)
-ViewProviderVise(obj.ViewObject)
-FreeCAD.ActiveDocument.recompute()
-Once you have a vise in the view-
-change how much the jaw opening is in the Data tab of the Property panel.
-'''
+    '''
+    how to use:
+    obj =FreeCAD.ActiveDocument.addObject("Part::FeaturePython",'Vise')
+    Vise(obj)
+    ViewProviderVise(obj.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    Once you have a vise in the view-
+    change how much the jaw opening is in the Data tab of the Property panel.
+    '''
 
     def __init__ (self, obj):
         '''create a milling machine vise '''
