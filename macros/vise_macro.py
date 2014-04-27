@@ -37,10 +37,7 @@ def download(url,subdirectory, force=False):
 try:
     from vise import vise,utils
 except:
-    libsok =False
-
-if not libsok:
-#download the python script 
+    #download the python script 
     baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/vise/"
     files = ['vise.py', 'utils.py','__init__.py']
     for f in files:
