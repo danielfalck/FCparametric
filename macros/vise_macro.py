@@ -1,16 +1,25 @@
 import FreeCAD
 import sys
 
-def download(url,force=False):
+def download(url,subdirectory, force=False):
     '''downloads a file from the given URL and saves it in the
     macro path. Returns the path to the saved file'''
+
     import urllib2, os
     name = url.split('/')[-1]
     p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
     macropath = p.GetString("MacroPath","")
     if not macropath:
         macropath = FreeCAD.ConfigGet("UserAppData")
-    filepath = os.path.join(macropath,name)
+
+    #check to see if subdirectory exists
+    if os.path.exists(macropath+subdirectory):
+        print 'success'
+    else:
+        os.makedirs(macropath+subdirectory)
+
+
+    filepath = os.path.join(macropath+subdirectory,name)
     if os.path.exists(filepath) and not(force):
         return filepath
     try:
@@ -26,21 +35,21 @@ def download(url,force=False):
         return filepath
 
 try:
-    import vise,utils
+    from vise import vise,utils
 except:
     libsok =False
 
 if not libsok:
 #download the python script 
     baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/python/"
-    files = ['vise.py', 'utils.py']
+    files = ['vise.py', 'utils.py','__init__.py']
     for f in files:
-        p = download(baseurl+f, force = True)
+        p = download(baseurl+f,'/vise', force = True)
 
     d = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
     macropath = d.GetString("MacroPath","")
-    sys.path.append(macropath)
-    import vise,utils
+    sys.path.append(macropath+"/vise")
+    from vise import vise,utils
 
 obj =FreeCAD.ActiveDocument.addObject("Part::FeaturePython",'Vise')
 vise.Vise(obj)
