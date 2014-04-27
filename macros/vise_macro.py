@@ -41,7 +41,7 @@ except:
 
 if not libsok:
 #download the python script 
-    baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/python/"
+    baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/vise/"
     files = ['vise.py', 'utils.py','__init__.py']
     for f in files:
         p = download(baseurl+f,'/vise', force = True)

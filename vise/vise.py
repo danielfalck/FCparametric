@@ -19,18 +19,18 @@ class Vise:
         self.macropath = self.p.GetString("MacroPath","")
 
         self.base = Part.Shape()
-        if os.path.isfile(self.macropath+"/vise_base.stp"):
-            self.base.read(self.macropath+"/vise_base.stp")
+        if os.path.isfile(self.macropath+"/vise/vise_base.stp"):
+            self.base.read(self.macropath+"/vise/vise_base.stp")
         else:
-            vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp"
+            vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/vise/vise_base.stp"
             vise_base = utils.download(vise_base_url,force = True)
             self.base.read(vise_base)
 
         self.jaw = Part.Shape()
-        if os.path.isfile(self.macropath+"/vise_jaw.stp"):
-            self.jaw.read(self.macropath+"/vise_jaw.stp")
+        if os.path.isfile(self.macropath+"/vise/vise_jaw.stp"):
+            self.jaw.read(self.macropath+"/vise/vise_jaw.stp")
         else:
-            vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp"
+            vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/vise/vise_jaw.stp"
             vise_jaw = utils.download(vise_jaw_url,force = True)
             self.jaw.read(vise_jaw)
 
@@ -51,10 +51,10 @@ class ViewProviderVise:
         self.p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
         self.macropath = self.p.GetString("MacroPath","")
 
-        if os.path.isfile(self.macropath+"/vise.svg"):
-            i =QtGui.QIcon(self.macropath+"/vise.svg")
+        if os.path.isfile(self.macropath+"/vise/vise.svg"):
+            i =QtGui.QIcon(self.macropath+"/vise/vise.svg")
         else:
-            vise_icon_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/icons/vise.svg"
+            vise_icon_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/vise/vise.svg"
             vise_icon = utils.download(vise_icon_url, force = True)
             i =QtGui.QIcon(vise_icon)
         p =  i.pixmap(128,128)
