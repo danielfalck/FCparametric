@@ -5,6 +5,7 @@ from FreeCAD import Base
 from PySide import QtGui, QtCore
 from math import fabs
 import utils
+import os.path
 
 class Vise:
     def __init__ (self, obj):
@@ -14,15 +15,24 @@ class Vise:
         obj.Proxy = self
 
     def execute(self, fp):
+        self.p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
+        self.macropath = self.p.GetString("MacroPath","")
+
         self.base = Part.Shape()
-        vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp"
-        vise_base = utils.download(vise_base_url,force = True)
-        self.base.read(vise_base)
+        if os.path.isfile(self.macropath+"/vise_base.stp"):
+            self.base.read(self.macropath+"/vise_base.stp")
+        else:
+            vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp"
+            vise_base = utils.download(vise_base_url,force = True)
+            self.base.read(vise_base)
 
         self.jaw = Part.Shape()
-        vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp"
-        vise_jaw = utils.download(vise_jaw_url,force = True)
-        self.jaw.read(vise_jaw)
+        if os.path.isfile(self.macropath+"/vise_jaw.stp"):
+            self.jaw.read(self.macropath+"/vise_jaw.stp")
+        else:
+            vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp"
+            vise_jaw = utils.download(vise_jaw_url,force = True)
+            self.jaw.read(vise_jaw)
 
         if 0<=fabs(fp.JawOpening)<= 223.52:
             self.jaw.Placement.Base.y = -(fabs(fp.JawOpening))
@@ -37,9 +47,16 @@ class ViewProviderVise:
         obj.Proxy = self
 
     def getIcon(self):
-        vise_icon_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/icons/vise.svg"
-        vise_icon = utils.download(vise_icon_url, force = True)
-        i =QtGui.QIcon(vise_icon)
+
+        self.p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
+        self.macropath = self.p.GetString("MacroPath","")
+
+        if os.path.isfile(self.macropath+"/vise.svg"):
+            i =QtGui.QIcon(self.macropath+"/vise.svg")
+        else:
+            vise_icon_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/icons/vise.svg"
+            vise_icon = utils.download(vise_icon_url, force = True)
+            i =QtGui.QIcon(vise_icon)
         p =  i.pixmap(128,128)
         a = QtCore.QByteArray()
         b = QtCore.QBuffer(a)

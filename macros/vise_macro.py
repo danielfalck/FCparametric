@@ -25,21 +25,29 @@ def download(url,force=False):
     else:
         return filepath
 
+try:
+    import vise,utils
+
+except:
+    libsok =False
+
+if not libsok:
 
 #download the python script 
+    baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/python/"
+    files = ['vise.py', 'utils.py']
+    for f in files:
+        p = download(baseurl+f, force = True
+    d = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
+    macropath = d.GetString("MacroPath","")
+    sys.path.append(macropath)
+    import vise,utils
 
-baseurl = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/python/"
-
-files = ['vise.py', 'utils.py']
-
-for f in files:
-    p = none
-    p = download(baseurl+f, force = True)
 
 
-d = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Macro")
-macropath = d.GetString("MacroPath","")
+obj =FreeCAD.ActiveDocument.addObject("Part::FeaturePython",'Vise')
+vise.Vise(obj)
+vise.ViewProviderVise(obj.ViewObject)
+FreeCAD.ActiveDocument.recompute()
 
-sys.path.append(macropath)
 
-import vise,utils
