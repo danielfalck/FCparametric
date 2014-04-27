@@ -4,6 +4,7 @@ import FreeCADGui as Gui
 from FreeCAD import Base 
 from PySide import QtGui, QtCore
 from math import fabs
+import utils
 
 class Vise:
 '''
@@ -24,9 +25,15 @@ change how much the jaw opening is in the Data tab of the Property panel.
 
     def execute(self, fp):
         self.base = Part.Shape()
-        self.base.read("https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp")
+        vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp"
+        vise_base = utils.download(vise_base_url,force = True)
+        sel.base.read(vise_base)
+
         self.jaw = Part.Shape()
-        self.jaw.read("https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp")
+        vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp"
+        vise_jaw = utils.download(vise_jaw_url,force = True)
+        self.jaw.read(vise_jaw)
+
         if 0<=fabs(fp.JawOpening)<= 223.52:
             self.jaw.Placement.Base.y = -(fabs(fp.JawOpening))
         else:
@@ -40,7 +47,9 @@ class ViewProviderVise:
         obj.Proxy = self
 
     def getIcon(self):
-        i =QtGui.QIcon("/home/danfalck/Documents/freecad/stock3.svg")
+        vise_icon_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/icons/vise.svg"
+        vise_icon = utils.download(vise_icon_url, force = True)
+        i =QtGui.QIcon(vise_icon)
         p =  i.pixmap(128,128)
         a = QtCore.QByteArray()
         b = QtCore.QBuffer(a)
@@ -49,10 +58,5 @@ class ViewProviderVise:
         b.close()
         return str(a)
 
-#how to use:
-#obj =FreeCAD.ActiveDocument.addObject("Part::FeaturePython",'Vise')
-#Vise(obj)
-#ViewProviderVise(obj.ViewObject)
-#FreeCAD.ActiveDocument.recompute()
 
 
