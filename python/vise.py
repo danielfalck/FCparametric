@@ -24,9 +24,9 @@ change how much the jaw opening is in the Data tab of the Property panel.
 
     def execute(self, fp):
         self.base = Part.Shape()
-        self.base.read("vise_base.stp")
+        self.base.read("https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp")
         self.jaw = Part.Shape()
-        self.jaw.read("vise_jaw.stp")
+        self.jaw.read("https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp")
         if 0<=fabs(fp.JawOpening)<= 223.52:
             self.jaw.Placement.Base.y = -(fabs(fp.JawOpening))
         else:
