@@ -17,7 +17,7 @@ class Vise:
         self.base = Part.Shape()
         vise_base_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_base.stp"
         vise_base = utils.download(vise_base_url,force = True)
-        sel.base.read(vise_base)
+        self.base.read(vise_base)
 
         self.jaw = Part.Shape()
         vise_jaw_url = "https://raw.githubusercontent.com/danielfalck/FCparametric/master/partfiles/step/vise_jaw.stp"
